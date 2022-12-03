@@ -1,5 +1,8 @@
 package com.kh.springreact.controller;
 
+import com.kh.springreact.dto.MemberFormDto;
+import com.kh.springreact.entity.Member;
+import com.kh.springreact.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -14,19 +17,25 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class MemberController {
+    private final MemberService memberService;
     // 로그인
-    @PostMapping("/api/login")
+    @PostMapping("/login")
     public ResponseEntity<Boolean> memberLogin(@RequestBody Map<String, String> loginData) {
-        String user = loginData.get("user");
-        String pwd = loginData.get("pwd");
-        log.info("아이디 : " + user);
-        log.info("패스워드 : " + pwd);
-        return new ResponseEntity<>(true, HttpStatus.OK);
+        String user = loginData.get("name");
+        String pwd = loginData.get("password");
+        boolean result = memberService.loginCheck(user, pwd);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
     // 회원 가입
-    @PostMapping("/api/reg-member")
+    @PostMapping("/new")
     public ResponseEntity<Boolean> memberRegister(@RequestBody Map<String, String> regData) {
-        String user = regData.get("user");
-        return new ResponseEntity<>(true, HttpStatus.OK);
+        MemberFormDto memberFormDto = new MemberFormDto();
+        memberFormDto.setName(regData.get("name"));
+        memberFormDto.setEmail(regData.get("email"));
+        memberFormDto.setPassword(regData.get("password"));
+        memberFormDto.setAddress(regData.get("address"));
+        Member member = Member.createMember(memberFormDto);
+        boolean result = memberService.saveMember(member);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

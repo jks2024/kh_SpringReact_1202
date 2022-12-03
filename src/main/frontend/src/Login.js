@@ -1,7 +1,8 @@
 import React, {useState } from 'react';
 import { Link, useNavigate  } from "react-router-dom";
 import './App.css';
-import AxiosApi from './api/AxiosApi';
+import AxiosApi from './api/AxiosApi'
+import Modal from './util/Modal'
 import imgLogo from './images/tier_logo.png'
 import imgBottom from './images/nedbank_s.png'
 
@@ -18,6 +19,12 @@ const Login = () => {
     // 유효성 검사
     const [isId, setIsId] = useState("");
     const [isPw, setIsPw] = useState("");
+
+    //팝업 처리
+    const [modalOpen, setModalOpen] = useState(false);
+    const closeModal = () => {
+        setModalOpen(false);
+    };
 
     const onChangId = (e) => {
         setInputId(e.target.value)
@@ -43,14 +50,15 @@ const Login = () => {
     }
     const onClickLogin = async() => {
         //로그인을 위한 axios 호출
-        const res = await AxiosApi.userLogin(inputId, inputPw);
-        console.log(res);
-        if (res.status === 200) {
+        const res = await AxiosApi.memberLogin(inputId, inputPw);
+        console.log(res.data);
+        if (res.data === true) {
             window.localStorage.setItem("userId", inputId);
             window.localStorage.setItem("userPw", inputPw);
             window.localStorage.setItem("isLogin", "TRUE");
             navigate('/home');
         } else {
+            setModalOpen(true);
         }
     }
     return (
@@ -84,6 +92,7 @@ const Login = () => {
                                 onClick={onClickLogin}>SING IN</button>  :
                         <button className="disable_button"
                                 onClick={onClickLogin}>SING IN</button>}
+                    <Modal open={modalOpen} close={closeModal} header="오류">아이디 및 패스워드를 재확인해 주세요.</Modal>
                 </div>
                 <div className="signup">
                     <Link to="/Signup" className="link_style">

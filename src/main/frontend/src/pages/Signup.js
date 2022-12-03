@@ -11,6 +11,7 @@ const SignupS1 = () =>{
     const [inputConPw, setInputConPw] = useState("");
     const [inputName, setInputName] = useState("");
     const [inputEmail, setInputEmail] = useState("");
+    const [inputAddr, setInputAddr] = useState("");
 
     // 오류 메시지
     const [idMessage, setIdMessage] = useState("");
@@ -19,11 +20,11 @@ const SignupS1 = () =>{
     const [mailMessage, setMailMessage] = useState("");
 
     // 유효성 검사
-    const [isId, setIsId] = useState(false);
+    const [isName, setIsName] = useState(false);
     const [isPw, setIsPw] = useState(false)
     const [isConPw, setIsConPw] = useState(false);
-    const [isName, setIsName] = useState(false);
     const [isMail, setIsMail] = useState(false);
+    const [isAddr, setIsAddr] = useState(false);
     // 팝업
     const [modalOpen, setModalOpen] = useState(false);
     const [modalText, setModelText] = useState("중복된 아이디 입니다.");
@@ -32,16 +33,6 @@ const SignupS1 = () =>{
         setModalOpen(false);
     };
 
-    const onChangId = (e) => {
-        setInputId(e.target.value)
-        if (e.target.value.length < 5 || e.target.value.length > 12) {
-            setIdMessage("5자리 이상 12자리 미만으로 입력해 주세요.");
-            setIsId(false);
-        } else {
-            setIdMessage("올바른 형식 입니다.");
-            setIsId(true);
-        }
-    }
     const onChangePw = (e) => {
         //const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
         const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/
@@ -76,6 +67,10 @@ const SignupS1 = () =>{
     const onChangeMail = (e) => {
         setInputEmail(e.target.value);
         setIsMail(true);
+    }
+    const onChangeAddr = (e) => {
+        setInputAddr(e.target.value);
+        setIsAddr(true);
     }
 
     const onClickLogin = async() => {
@@ -114,10 +109,10 @@ const SignupS1 = () =>{
                     <span>Sign Up</span>
                 </div>
                 <div className="item2">
-                    <input className="input" placeholder="아이디" value ={inputId} onChange={onChangId}/>
+                    <input className="input" type="text" placeholder="이름" value ={inputName} onChange={onChangeName}/>
                 </div>
                 <div className="hint">
-                    {inputId.length > 0 && <span className={`message ${isId ? 'success' : 'error'}`}>{idMessage}</span>}
+                    {inputId.length > 0 && <span className={`message ${isName ? 'success' : 'error'}`}>{idMessage}</span>}
                 </div>
                 <div className="item2">
                     <input className="input" type="password" placeholder="패스워드" value ={inputPw} onChange={onChangePw}/>
@@ -134,14 +129,14 @@ const SignupS1 = () =>{
                         <span className={`message ${isConPw ? 'success' : 'error'}`}>{conPwMessage}</span>)}
                 </div>
                 <div className="item2">
-                    <input className="input" type="text" placeholder="이름" value ={inputName} onChange={onChangeName}/>
+                    <input className="input" type="email" placeholder="이메일" value ={inputEmail} onChange={onChangeMail}/>
                 </div>
                 <div className="item2">
-                    <input className="input" type="email" placeholder="이메일" value ={inputEmail} onChange={onChangeMail}/>
+                    <input className="input" type="text" placeholder="주소" value ={inputAddr} onChange={onChangeAddr}/>
                 </div>
 
                 <div className="item2">
-                    {(isId && isPw && isConPw && isName && isMail) ?
+                    {(isName && isPw && isConPw && isMail && isAddr) ?
                         <button className="enable_button" onClick={onClickLogin}>NEXT</button> :
                         <button className="disable_button" onClick={onClickLogin}>NEXT</button>}
                     <Modal open={modalOpen} close={closeModal} header="오류">{modalText}</Modal>

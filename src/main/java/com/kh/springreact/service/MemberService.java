@@ -1,11 +1,14 @@
 package com.kh.springreact.service;
 
+import com.kh.springreact.dto.MemberFormDto;
 import com.kh.springreact.entity.Member;
 import com.kh.springreact.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional // 로직을 처리하다가 에러가 발생하면 자동 롤백
@@ -15,7 +18,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     // 신규 회원 가입
     public boolean saveMember(Member member) {
-        if(!validateDuplicateMember(member)) return false;
+        //if(!validateDuplicateMember(member)) return false;
         memberRepository.save(member);
         return true;
     }
@@ -33,6 +36,20 @@ public class MemberService {
         Member regMember = memberRepository.findByNameAndPassword(name, password);
         if(regMember != null) return true;
         else return false;
+    }
+    // 회원 조회
+    public List<MemberFormDto> getMemberList() {
+        List<Member> memberList = memberRepository.findAll();
+        List<MemberFormDto> memberFormDtoList = new ArrayList<>();
+        for(Member e : memberList) {
+            MemberFormDto memberFormDto = new MemberFormDto();
+            memberFormDto.setName(e.getName());
+            memberFormDto.setPassword(e.getPassword());
+            memberFormDto.setEmail(e.getEmail());
+            memberFormDto.setAddress(e.getAddress());
+            memberFormDtoList.add(memberFormDto);
+        }
+        return memberFormDtoList;
     }
 
 }

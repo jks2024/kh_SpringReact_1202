@@ -4,8 +4,8 @@ const AxiosApi = {
     // 로그인
     memberLogin: async function(id, pw) {
         const loginObj = {
-            user: id,
-            pwd: pw
+            name: id,
+            password: pw
         }
         return await axios.post("/login", loginObj);
     },
@@ -21,10 +21,7 @@ const AxiosApi = {
     },
     // 회원 조회
     memberGet: async function(id) {
-        return await axios.get(`/api/member??id=${id}`);
-    },
-    memberAll: async function() {
-        return await axios.get('/member/list');
+        return await axios.get(`/member?id=${id}`);
     },
 }
 export default AxiosApi;

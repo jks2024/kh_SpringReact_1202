@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import imgArrow from '../images/left_b.png'
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Modal from '../util/Modal.js';
 import AxiosApi from '../api/AxiosApi';
 
 const SignupS1 = () =>{
+    const navigate = useNavigate();
     // 키보드 입력
     const [inputId, setInputId] = useState("");
     const [inputPw, setInputPw] = useState("");
@@ -75,27 +76,14 @@ const SignupS1 = () =>{
 
     const onClickLogin = async() => {
         console.log("Click 회원가입");
-        // 가입 여부 우선 확인
-       // const memberCheck = await AxiosApi.memberRegCheck(inputId);
-        //console.log("가입 가능 여부 확인 : ", memberCheck.data);
-        // 가입 여부 확인 후 가입 절차 진행
-
-        // if (memberCheck.data.result === "OK") {
-        //     console.log("가입된 아이디가 없습니다. 다음 단계 진행 합니다.");
-        //     const memberReg = await AxiosApi.memberReg(inputId, inputPw, inputName, inputEmail);
-        //     console.log(memberReg.data.result);
-        //     if(memberReg.data.result === "OK") {
-        //         window.location.replace("/");
-        //     } else {
-        //         setModalOpen(true);
-        //         setModelText("회원 가입에 실패 했습니다.");
-        //     }
-        //
-        // } else {
-        //     console.log("이미 가입된 회원 입니다.")
-        //     setModalOpen(true);
-        //     setModelText("이미 가입된 회원 입니다.");
-        // }
+        const memberReg = await AxiosApi.memberReg(inputName, inputEmail, inputPw, inputAddr);
+        console.log(memberReg);
+        if(memberReg.data === true) {
+            navigate('/');
+        } else {
+            setModalOpen(true);
+            setModelText("회원 가입에 실패 했습니다.");
+        }
     }
 
     return(

@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import AxiosApi from "../api/AxiosApi";
 import alarmGo from '../images/bell.png'
-import receiptGo from '../images/receipt.png'
 import nowGo from '../images/short_cut.png'
 import logoWhite from '../images/tier_logo_white.png'
 import imgPhone from '../images/ned_phone.png'
-import qrPay from '../images/qr_button_black.png'
 import Modal from '../util/Modal'
 
 const Home = () => {
@@ -15,7 +13,7 @@ const Home = () => {
 
     useEffect(() => {
         const memberData = async () => {
-            const response = await AxiosApi.memberGet(localId, localPw); // 원래는 전체 회원 조회용
+            const response = await AxiosApi.memberGet("ALL"); // 원래는 전체 회원 조회용
             if(response.status === 200) setMemberInfo(response.data);
             console.log(response.data)
         };
@@ -76,7 +74,7 @@ const Home = () => {
                     <span className="EFTtypo">전체 회원 리스트</span>
                 </div>
                 <div className="ATM" onClick={onClickMemberReg}>
-                    <img src={receiptGo} className="imgATM" alt="onClickMemberReg" />
+                    <img src={nowGo} className="imgATM" alt="onClickMemberReg" />
                     <span className="ATMtypo">회원 추가</span>
                 </div>
                 <div className="Peer" onClick={onClickMemberDelete}>
@@ -84,11 +82,11 @@ const Home = () => {
                     <span className="Peertypo">회원 탈퇴</span>
                 </div>
                 <div className="QR" onClick={onClickLogout}>
-                    <img src={qrPay} className="imgQrblack" alt="GoQrpay" />
+                    <img src={nowGo} className="imgQrblack" alt="GoQrpay" />
                     <span className="QRtypo">로그아웃</span>
                 </div>
                 <div className="QR" >
-                    <img src={qrPay} className="imgQrblack" alt="GoQrpay" />
+                    <img src={nowGo} className="imgQrblack" alt="GoQrpay" />
                     <span className="QRtypo">회원 정보 설정</span>
                 </div>
                 <div className="history" >

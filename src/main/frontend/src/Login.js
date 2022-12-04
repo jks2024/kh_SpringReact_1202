@@ -28,7 +28,7 @@ const Login = () => {
 
     const onChangId = (e) => {
         setInputId(e.target.value)
-        if (e.target.value.length < 5 || e.target.value.length > 12) {
+        if (e.target.value.length < 3 || e.target.value.length > 12) {
             setIdMessage("5자리 이상 12자리 미만으로 입력해 주세요.");
             setIsId(false);
         } else {
@@ -68,7 +68,7 @@ const Login = () => {
                     <img src={imgLogo} alt="Logo" />
                 </div>
                 <div className="item2">
-                    <input className="input" placeholder="아이디" value ={inputId} onChange={onChangId}/>
+                    <input className="input" placeholder="이름" value ={inputId} onChange={onChangId}/>
                 </div>
                 <div className="hint">
                     {inputId.length > 0 && <span className={`message ${isId ? 'success' : 'error'}`}>{idMessage}</span>}

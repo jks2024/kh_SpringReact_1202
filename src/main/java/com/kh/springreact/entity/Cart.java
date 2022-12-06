@@ -18,6 +18,6 @@ public class Cart {
     private Long id;
 
     @OneToOne // 일대일 매핑이며, 장바구니 엔티티가 회원 엔티티를 참조하는 일애일 단방향 매핑
-    @JoinColumn(name = "membet_id")
+    @JoinColumn(name = "member_id")
     private Member member;
 }
